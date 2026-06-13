@@ -15,8 +15,8 @@ The preprocessing pipeline expects your local directory to be organized as follo
 ├── IMUs_Sitting_Posture_Baseline_CNN_Classifier_LOSO.ipynb   # Master pipeline notebook (Cells 1-13)
 └── IMU_Posture_Dataset_Wide_format/                          # Root data directory (RAW_ROOT)
     ├── 1/                                                    # Folder containing Backward Bending trials
-    │   ├── Sub_1_Trial_1.csv
-    │   └── Sub_1_Trial_2.csv
+    │   ├── Sub_1_Trial_8.csv
+    │   └── Sub_1_Trial_9.csv
     ├── 2/                                                    # Folder containing Upright trials
     ├── 3/                                                    # Folder containing Slouching trials
     ├── 4/                                                    # Folder containing Forward Bending trials
