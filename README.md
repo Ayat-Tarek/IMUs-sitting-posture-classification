@@ -12,16 +12,16 @@ The preprocessing pipeline expects your local directory to be organized as follo
 
 ```text
 ├── README.md
-├── main_pipeline.ipynb          # Contains Cells 1 through 13
-└── dataset/                     # The RAW_ROOT directory variable
-    ├── 1/                       # Posture Class 1 Trials
+├── IMUs_Sitting_Posture_Baseline_CNN_Classifier_LOSO.ipynb   # Master pipeline notebook (Cells 1-13)
+└── IMU_Posture_Dataset_Wide_format/                          # Root data directory (RAW_ROOT)
+    ├── 1/                                                    # Folder containing Backward Bending trials
     │   ├── Sub_1_Trial_1.csv
     │   └── Sub_1_Trial_2.csv
-    ├── 2/
-    ├── 3/
-    ├── 4/
-    ├── 5/
-    └── 6/                       # Posture Class 6 Trials
+    ├── 2/                                                    # Folder containing Upright trials
+    ├── 3/                                                    # Folder containing Slouching trials
+    ├── 4/                                                    # Folder containing Forward Bending trials
+    ├── 5/                                                    # Folder containing Right Bending trials
+    └── 6/                                                    # Folder containing Left Bending trials
 
 ```
 
