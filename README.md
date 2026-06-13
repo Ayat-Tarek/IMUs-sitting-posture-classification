@@ -108,6 +108,3 @@ To combat ambient electronic noise, anatomical drift, and subject-mounting varia
 * **Leave-One-Subject-Out (LOSO) Cross-Validation:** Evaluates true user generalizability by holding out an entire individual's data cohort systematically as the independent testing set. This completely eliminates window-shuffling data leakage.
 * **Log-Likelihood Window Fusion:** Smooths erratic, instantaneous window classifications into a single, cohesive trial verdict using a stable logarithmic majority vote, yielding robust clinical metric auditing.
 
-```
-
-```
