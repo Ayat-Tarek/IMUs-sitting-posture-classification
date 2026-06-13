@@ -34,14 +34,14 @@ The raw recording hardware application logs experimental trials inside folders l
 
 Below is the definitive mapping of what each numerical directory contains:
 
-| Folder Name | Internal Class ID | Posture Label |
-| --- | --- | --- |
-| **`1`** | `0` | `Backward Bending` |
-| **`2`** | `1` | `Upright` |
-| **`3`** | `2` | `Slouching` |
-| **`4`** | `3` | `Forward Bending` |
-| **`5`** | `4` | `Right Bending` |
-| **`6`** | `5` | `Left Bending` |
+| Folder Name | Posture Label |
+| --- |  --- |
+| **`1`** |  `Backward Bending` |
+| **`2`** |  `Upright` |
+| **`3`** |  `Slouching` |
+| **`4`** |  `Forward Bending` |
+| **`5`** |  `Right Bending` |
+| **`6`** |  `Left Bending` |
 
 ---
 
