@@ -27,42 +27,43 @@ The preprocessing pipeline expects your local directory to be organized as follo
 
 ---
 
+
 ## 2. Dataset Folder Mapping & Posture Definitions
 
-The raw recording application logs experimental trials inside folders labeled numerically from `1` to `6`. The pipeline dynamically sorts and maps these directories alphabetically/numerically using the `LABEL_TO_ID` configuration.
+The raw recording hardware application logs experimental trials inside folders labeled numerically from `1` to `6`. The data pipeline dynamically sorts and maps these directories alphabetically and numerically using the internal `LABEL_TO_ID` tracking schema.
 
-Below is the definitive biological mapping of what each numerical folder contains:
+Below is the definitive mapping of what each numerical directory contains:
 
-| Folder Name | Internal Class ID | Posture Label | Biomechanical Context & Description |
-| --- | --- | --- | --- |
-| **`1`** | `0` | `Standard Sitting` | Neutral upright seated position; baseline spinal load. |
-| **`2`** | `1` | `Slouching` | Thoracic/lumbar flexion; forward kyphotic spine drop. |
-| **`3`** | `2` | `Forward Bending` | Deep trunk flexion from hips; intense sagittal spinal displacement. |
-| **`4`** | `3` | `Right Twisting` | Axial spine rotation toward the right lateral plane. |
-| **`5`** | `4` | `Left Twisting` | Axial spine rotation toward the left lateral plane. |
-| **`6`** | `5` | `Standing` | Upright extension; pelvis neutral; weight balanced. |
+| Folder Name | Internal Class ID | Posture Label |
+| --- | --- | --- |
+| **`1`** | `0` | `Backward Bending` |
+| **`2`** | `1` | `Upright` |
+| **`3`** | `2` | `Slouching` |
+| **`4`** | `3` | `Forward Bending` |
+| **`5`** | `4` | `Right Bending` |
+| **`6`** | `5` | `Left Bending` |
 
 ---
 
 ## 3. Preprocessing & Kinematic Engineering Pipeline
 
-To combat hardware inconsistencies and subject-mounting variances, raw files undergo strict digital signal conditioning before hitting the neural network:
+To combat ambient electronic noise, anatomical drift, and subject-mounting variations, raw files undergo strict digital signal conditioning before hitting the neural network:
 
 ```
 [Raw CSV File] ──> [Bidirectional Interpolation] ──> [DC Bias Removal]
-                         │
-                         ▼
+                                                         │
+                                                         ▼
 [Zero-Phase Low-Pass Filter (3Hz)] <── [Hampel Outlier Suppression]
-                         │
-                         ▼
+         │
+         ▼
 [Spatial Coordinate Realignment via Quaternions] ──> [Targeted Feature Slicing]
 
 ```
 
-1. **Data Cleaning & Imputation:** Replaces data gaps caused by transient Bluetooth packet loss via linear interpolation, and clamps extreme floating errors.
-2. **Signal Conditioning:** Removes DC baseline offset biases and routes data through a non-linear **Hampel Filter** to kill sudden outlier spikes, followed by a zero-phase **Butterworth Low-pass Filter (3.0 Hz)** to capture smooth human movement while blocking high-frequency device vibration.
-3. **Spatial Coordinate Realignment:** Uses 4D Quaternions to mathematically rotate local, device-relative coordinates into an absolute, global frame of reference. This neutralizes errors caused by slightly misaligned Velcro straps between subjects.
-4. **Targeted Feature Selection:** The system slices out an optimal **24-channel array** (3 Acceleration channels + 3 Euler angles [Yaw, Pitch, Roll] across the 4 physical sensors).
+1. **Data Integrity & Imputation:** Replaces data gaps caused by transient wireless Bluetooth packet loss via linear bidirectional interpolation, and forces invalid strings into numerical boundaries.
+2. **Signal Conditioning (DSP):** Removes static DC baseline sensor offset biases. Arrays are then routed through a non-linear **Hampel Filter** to suppress sudden spike/impulse artifacts, followed by a zero-phase **Butterworth Low-pass Filter (3.0 Hz)** to preserve smooth macro-postural trajectories while eliminating high-frequency tremors.
+3. **Spatial Coordinate Realignment:** Uses 4D Quaternions to mathematically rotate local, device-relative coordinates into an absolute, global earth frame of reference. This neutralizes errors caused by slightly misaligned sensor orientations or shifted Velcro straps across different subjects.
+4. **Targeted Feature Selection:** The system slices out an optimal, highly interpretable **24-channel array** (3 Acceleration axes + 3 Biomechanical Euler angles [Yaw, Pitch, Roll] across the 4 physical spinal sensors), discarding high-variance or redundant metrics.
 
 ---
 
@@ -100,9 +101,13 @@ To combat hardware inconsistencies and subject-mounting variances, raw files und
 
 ```
 
-### Key Framework Highlights
+### Framework Highlights
 
-* **SensorDropout Regularization:** A custom hardware-level regularization layer that completely drops an entire random sensor block with a 25% probability during training batches. This stops the model from leaning lazily on a single dominant node.
-* **Hierarchical Attention:** Features two distinct attention sub-networks. *Feature-level attention* weights the most expressive traits inside a single device stream, while *Sensor-level attention* dynamically gauges which anatomical area is providing the most critical movement data at any given millisecond.
-* **Leave-One-Subject-Out (LOSO) Cross-Validation:** Evaluates generalizability by holding out an entire individual's data cohort systematically as the test set. This completely eliminates window-shuffling data leakage.
-* **Log-Likelihood Window Fusion:** Smooths erratic, instantaneous window classifications into a single, cohesive trial verdict using a stable logarithmic majority vote.
+* **SensorDropout Regularization:** A custom hardware-level regularization layer that completely drops an entire random sensor block with a 25% probability during training batches. This stops the network from over-relying on a single dominant sensor placement.
+* **Hierarchical Attention Mechanism:** Features two distinct attention sub-networks. *Feature-level attention* dynamically weights the most expressive traits inside a single device stream, while *Sensor-level attention* gauges which anatomical area is providing the most critical movement data at any given millisecond.
+* **Leave-One-Subject-Out (LOSO) Cross-Validation:** Evaluates true user generalizability by holding out an entire individual's data cohort systematically as the independent testing set. This completely eliminates window-shuffling data leakage.
+* **Log-Likelihood Window Fusion:** Smooths erratic, instantaneous window classifications into a single, cohesive trial verdict using a stable logarithmic majority vote, yielding robust clinical metric auditing.
+
+```
+
+```
